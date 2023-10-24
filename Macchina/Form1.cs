@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,12 +17,12 @@ namespace Macchina
     {
 
         public int cont = 0;
-
         public int velocità = 0;
         public int marcia = 0;
         public int num = 0;
         public bool cont2 = false;
         public bool cont3 = false;
+        public bool o = false;
 
         public Form1()
         {
@@ -34,10 +35,7 @@ namespace Macchina
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void button11_Click(object sender, EventArgs e)
         {
@@ -66,8 +64,7 @@ namespace Macchina
                 int acc = a.Accellerazione();
                 listView1.Items.Clear();
                 listView1.Items.Add("Velocità: " + acc + " Km/h");
-               
-                             
+                                  
         }
 
         public class Automobile
@@ -136,35 +133,34 @@ namespace Macchina
             {
                 velocità--;
 
-                if (marcia == 6 && velocità > 12)
+                if (marcia == 5 && velocità < 10)
                 {
                     velocità++;
                 }
-                if (marcia == 5 && velocità > 10)
+                if (marcia == 4 && velocità < 8)
                 {
                     velocità++;
                 }
-                if (marcia == 4 && velocità > 8)
+                if (marcia == 3 && velocità < 6)
                 {
                     velocità++;
                 }
-                if (marcia == 3 && velocità > 6)
+                if (marcia == 2 && velocità < 4)
                 {
                     velocità++;
                 }
-                if (marcia == 2 && velocità > 4)
+                if (marcia == 1 && velocità < 2)
                 {
                     velocità++;
                 }
-                if (marcia == 1 && velocità > 2)
+                else
                 {
-                    velocità++;
-                }
-                if (marcia == 0 && velocità < 0)
-                {
-                    velocità++;
-                }
 
+                    if (velocità < 0)
+                    {
+                        velocità = 0;
+                    }
+                }
 
                 return this.velocità;
             }
@@ -177,7 +173,6 @@ namespace Macchina
 
             public virtual bool Frizione2()
             {
-                
                 cont3 = true;
                 return cont3;
             }
@@ -187,38 +182,65 @@ namespace Macchina
                 marcia++;
                 return marcia;
             }
+
             public virtual int Cambio2()
             {
                 marcia--;
                 return marcia;
             }
+
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            int dec = a.Decellerazione();
-            listView1.Items.Clear();
-            listView1.Items.Add("Velocità: " + dec + " Km/h");
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
             cont2 = a.Frizione();
             cont3 = a.Frizione2();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button2_Click_1(object sender, EventArgs e)
         {
-            if(cont2 == true)
+            int dec = 0;
+
+            if (o == true)
             {
-                if(marcia == 0)
+                dec = velocità--;
+                if (velocità < -50)
                 {
-                    marcia=a.Cambio();
+                    dec = velocità++;
+                }
+            }
+            else
+            {
+               dec = a.Decellerazione();
+            }
+
+            listView1.Items.Clear();
+
+            listView1.Items.Add("Velocità: " + dec + " Km/h");
+
+        }
+
+        //Retro
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (velocità < 3)
+            {
+                o = true;
+            }
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            if (cont2 == true)
+            {
+                if (marcia == 0)
+                {
+                    marcia = a.Cambio();
                 }
             }
 
@@ -228,20 +250,18 @@ namespace Macchina
                 {
                     marcia = a.Cambio2();
                 }
-            } 
+            }
 
             cont2 = false;
-            cont3 = false; 
-
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void button6_Click_1(object sender, EventArgs e)
         {
             if (cont2 == true)
             {
                 if (marcia == 1)
                 {
-                    marcia=a.Cambio();
+                    marcia = a.Cambio();
                 }
             }
             if (cont3 == true)
@@ -253,10 +273,9 @@ namespace Macchina
             }
 
             cont2 = false;
-            cont3 = false;
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void button7_Click_1(object sender, EventArgs e)
         {
             if (cont2 == true)
             {
@@ -274,10 +293,9 @@ namespace Macchina
             }
 
             cont2 = false;
-            cont3 = false;
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void button8_Click_1(object sender, EventArgs e)
         {
             if (cont2 == true)
             {
@@ -295,10 +313,9 @@ namespace Macchina
             }
 
             cont2 = false;
-            cont3 = false;
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private void button9_Click_1(object sender, EventArgs e)
         {
             if (cont2 == true)
             {
@@ -316,10 +333,9 @@ namespace Macchina
             }
 
             cont2 = false;
-            cont3 = false;
         }
 
-        private void button10_Click(object sender, EventArgs e)
+        private void button10_Click_1(object sender, EventArgs e)
         {
             if (cont2 == true)
             {
@@ -331,6 +347,8 @@ namespace Macchina
 
             cont2 = false;
         }
+
+
     }
 
 
